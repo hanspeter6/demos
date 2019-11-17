@@ -1,0 +1,12 @@
+name: CLT_Demo
+title: CLT_Demo
+username:
+account: h-pb
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1482199
+bundleId: 2594931
+url: https://h-pb.shinyapps.io/CLT_Demo/
+when: 1573983680.99337
+asMultiple: FALSE
+asStatic: FALSE
