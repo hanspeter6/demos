@@ -24,33 +24,42 @@ full <- function() {
 ui <- fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Two-Tailed Hypothesis"),
 
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
-            sliderInput("n",
-                        h4("Select Sample Size:"),
-                        min = 1,
-                        max = 30,
-                        value = 5),
+            
+            h5("This app aims to give you a feel for two-tailed hypothesis tests.
+               The fist step in any hypothesis test is to state the claim or the research question.
+               In this example the question or claim is :'What is average weight in our population of interest?'.
+               Typically one would start with a hypothesis: For example, the average weight is 65kg.
+               After deciding this, one would choose an alpha and then a sample to measure, which would constitute evidence for or against the hypothesis.
+               The plot on the right compares the t-distribution with a standard normal (in red) showing the larger the sample size, the more closely the t resembles the Z"),
+            
             hr(),
             
             sliderInput("mu",
                         h4("Select Hypothesised Mean:"),
                         min = 60,
                         max = 80,
-                        value = 70),
-            hr(),
+                        value = 65),
             
+            hr(),
+                        
             sliderInput(inputId = "alpha:",
                         label = h4("Select alpha:"),
                         value = 0.05,
                         min = 0.001,
                         max = 0.1),
-            hr()
             
+            hr(),
 
+            sliderInput("n",
+                        h4("Select Sample Size:"),
+                        min = 1,
+                        max = 30,
+                        value = 5),
         ),
 
         # Show a plot of the generated distribution
