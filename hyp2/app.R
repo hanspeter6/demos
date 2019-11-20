@@ -134,17 +134,34 @@ server <- function(input, output) {
             geom_point(aes(x = -t_crit, y = -0.01), col = "red", fill = "red", shape = 24, size = 3) +
             scale_x_continuous(name = "T") +
             scale_y_continuous(name = "density") +
-            annotate(geom = "text", x = -t_crit, y = -0.03, label ="-t-crit", col = "brown", size = 3) +
-            annotate(geom = "text", x = t_crit, y = -0.03, label ="+t-crit", col = "brown", size = 3) +
-            annotate(geom = "text", x = t_calc, y = -0.05, label ="t-calc", size = 4) +
+            annotate(geom = "text", x = -t_crit, y = -0.03, label ="-t-crit", col = "brown", size = 4) +
+            annotate(geom = "text", x = t_crit, y = -0.03, label ="+t-crit", col = "brown", size = 4) +
+            annotate(geom = "text", x = t_calc, y = -0.05, label ="t-calc", size = 5) +
             geom_segment(aes(x = t_calc, y = -0.04, xend = t_calc, yend = 0), arrow = arrow()) +
             geom_hline(yintercept = 0, size = 0.4)
         
-        q <- ggplot(data.frame(x = c(-4, 4)), aes(x = x)) +
+        q1 <- ggplot(data.frame(x = c(-4, 4)), aes(x = x)) +
             stat_function(fun = dt, args = list(df = n-1)) +
-            stat_function(fun = dnorm, args = list(mean = 0, sd = 1), col = "red")
+            stat_function(fun = dnorm, args = list(mean = 0, sd = 1), col = "red") +
+            theme(axis.title = element_blank()) +
+            annotate(geom = "text", x = 2, y = 0.35, label = "Standard Normal", col = "red", size = 5)
         
-        grid.arrange(g,q, nrow = 1 )
+        q2 <- ggplot(data.frame(x = c(-5, 5)), aes(x = x)) +
+            stat_function(fun = dt, args = list(df = n-1)) +
+            stat_function(fun = dt, args = list(df = n-1), xlim = c(-5, -abs(t_calc)),
+                          geom = "area",
+                          fill = ifelse(2*pt(-abs(t_calc), df = n-1) < alph, "red", "green"), alpha = .6) +
+            stat_function(fun = dt, args = list(df = n-1), xlim = c(abs(t_calc), +5),
+                          geom = "area",
+                          fill = ifelse(2*pt(-abs(t_calc), df = n-1) < alph, "red", "green"), alpha = .6) +
+            scale_x_continuous(name = "T") +
+            scale_y_continuous(name = "density") +
+            annotate(geom = "text", x = 0, y = -0.03, label = paste("pval = ", 2*pt(-abs(t_calc), df = n-1)), col = "darkgreen", size = 4) +
+            theme(axis.title = element_blank())
+
+        
+        
+        grid.arrange(grobs = list(g,q1,q2), layout_matrix = rbind(c(1,2), c(1,3)))
 
         
         # vp <- viewport(width = 0.3, height = 0.3, x = 0.8, y = 0.8)
