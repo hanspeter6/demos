@@ -21,19 +21,23 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(
             
-            selectInput("distribution", "Distribution:",
+            selectInput("distribution", h3("Distribution:"),
                         c("Uniform (min = 0, max = 1)" = "uniform",
                           "Exponential (rate = 1)" = "exponential",
                           "Gamma (shape = 1.5)" = "gamma",
                         "Chi-Squared (df = 4)" = "chisquared")),
+            hr(),
             
             sliderInput("n",
-                        "Sample Size:",
+                        h3("Sample Size:"),
                         min = 1,
                         max = 30,
                         value = 5),
+            hr(),
             
             actionButton("do", "Re Sample"),
+            
+            hr(),
             
             textOutput("sdeviations")
         ),
@@ -144,8 +148,19 @@ server <- function(input, output) {
             
         }
 
+        # g <- ggplot(averages, aes(x = x)) +
+        #     geom_histogram(aes(y = ..density..), colour = "white", fill = "cornflowerblue", size = 0.1, bins = 50) +
+        #     stat_function(
+        #         fun = dnorm,
+        #         args = with(averages, c(mean = mean(x), sd = sd(x))),
+        #         size = 1.2,
+        #         col = "orange"
+        #     ) +
+        #     scale_x_continuous("X-BAR")
+        
         g <- ggplot(averages, aes(x = x)) +
-            geom_histogram(aes(y = ..density..), colour = "white", fill = "cornflowerblue", size = 0.1, bins = 50) +
+            geom_histogram(aes(y = ..density..), colour = "white", fill = "grey", size = 0.1, bins = 50, alpha = 0.4) +
+            geom_density(aes(y = ..density..), colour = "white", fill = "cornflowerblue", size = 0.1, alpha = 0.2) +
             stat_function(
                 fun = dnorm,
                 args = with(averages, c(mean = mean(x), sd = sd(x))),
@@ -153,6 +168,7 @@ server <- function(input, output) {
                 col = "orange"
             ) +
             scale_x_continuous("X-BAR")
+        
         
         # p <- ggplot(underlying, aes(x = u)) + 
         #     geom_histogram(aes(y = ..density..), colour = "white", fill = "cornflowerblue", size = 0.1, bins = 100) +
