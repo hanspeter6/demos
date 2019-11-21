@@ -60,7 +60,11 @@ ui <- fluidPage(
                         min = 1,
                         max = 30,
                         value = 5),
+            
+            actionButton("do", "Re Sample"),
+            
         ),
+        
 
         # Show a plot of the generated distribution
         mainPanel(
@@ -71,10 +75,6 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-    
-    
-    
-    
        
 
     output$distPlot <- renderPlot({
@@ -101,10 +101,17 @@ server <- function(input, output) {
         n <- input$n  #user input n
         
         # weigh them and calculate the statistics
-        set.seed(3)
-        mySample <- rnorm(n, mean = 73, sd = 3) # open a window to show this
+        if(input$do) {
+            
+            mySample <- rnorm(n, mean = 73, sd = 3)
+            
+        }
         
-        # mySample <- c(56,76,45,34,78)
+        else {
+            set.seed(3)
+            mySample <- rnorm(n, mean = 73, sd = 3)
+        }
+                        
         
         xbar <- mean(mySample) # display
         s <- sd(mySample) # display
